@@ -1,0 +1,44 @@
+services:
+  springboot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: managemnt-app-image
+    container_name: springboot-app-managemnt
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/mydatabase
+      SPRING_DATASOURCE_USERNAME: myuser
+      SPRING_DATASOURCE_PASSWORD: mypassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+    networks:
+      - mynetwork
+    volumes:
+      - .:/app
+  mysql:
+    image: mysql
+    container_name: mysql_container_server
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - mynetwork
+  
+networks:
+  mynetwork:
+    driver: bridge
+
+volumes:
+  mysql_data:
