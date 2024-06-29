@@ -7,6 +7,7 @@ import com.br.manager.exception.GeneralNotFoundException;
 import com.br.manager.model.IncidentDB;
 import com.br.manager.repository.IncidentRepository;
 import com.br.manager.service.IncidentService;
+import com.br.manager.mapper.IncidentMapper;
 import com.br.manager.utils.message.ErrorMessagesEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,20 +21,21 @@ public class IncidentServiceImpl implements IncidentService {
     @Autowired
     private IncidentRepository repository;
 
+    @Autowired
+    private IncidentMapper mapper;
+
     @Override
     public Long createIncident(IncidentReqDTO request) {
-        return repository.save(toModel(request)).getId();
+        return repository.save(mapper.toEntity(request)).getId();
     }
 
     @Override
     public void updateIncident(Long id, IncidentUpdateReqDTO request) {
         IncidentDB incidentSaved = repository.findById(id)
                 .orElseThrow(() -> new GeneralNotFoundException(ErrorMessagesEnum.INCIDENT_NOT_FOUND.getMessage(), id));
-        IncidentDB incident = toModelUpdate(request);
-        incident.setId(incidentSaved.getId());
-        incident.setCreatedAt(incidentSaved.getCreatedAt());
-        incident.setUpdatedAt(LocalDateTime.now());
-        repository.save(incident);
+        incidentSaved = mapper.toModelUpdate(request, incidentSaved);
+        incidentSaved.setUpdatedAt(LocalDateTime.now());
+        repository.save(incidentSaved);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class IncidentServiceImpl implements IncidentService {
     @Override
     public IncidentResDTO getIncidentById(Long id) {
         return repository.findById(id)
-                .map(this::toResponse)
+                .map(mapper::toResponse)
                 .orElseThrow(() -> new GeneralNotFoundException(ErrorMessagesEnum.INCIDENT_NOT_FOUND.getMessage(), id));
     }
 
@@ -57,7 +59,7 @@ public class IncidentServiceImpl implements IncidentService {
         return repository
                 .findAll()
                 .stream()
-                .map(this::toResponse)
+                .map(mapper::toResponse)
                 .toList();
     }
 
@@ -66,33 +68,7 @@ public class IncidentServiceImpl implements IncidentService {
         return repository
                 .findTop20ByOrderByCreatedAtDesc()
                 .stream()
-                .map(this::toResponse)
+                .map(mapper::toResponse)
                 .toList();
-    }
-
-    private IncidentDB toModel(IncidentReqDTO request) {
-        return IncidentDB
-                .builder()
-                .name(request.name())
-                .description(request.description())
-                .build();
-    }
-
-    private IncidentResDTO toResponse(IncidentDB model) {
-        return new IncidentResDTO(
-                model.getName(),
-                model.getDescription(),
-                model.getCreatedAt(),
-                model.getUpdatedAt(),
-                model.getClosedAt()
-        );
-    }
-
-    private IncidentDB toModelUpdate(IncidentUpdateReqDTO request) {
-        return IncidentDB
-                .builder()
-                .name(request.name())
-                .description(request.description())
-                .build();
     }
 }

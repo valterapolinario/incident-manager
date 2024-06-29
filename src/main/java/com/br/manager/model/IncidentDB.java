@@ -11,18 +11,16 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
-/**
- * Represents an incident in the database.
- */
 @Entity
 @Table(name = "incidents")
 @Getter
 @Setter
 @ToString
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class IncidentDB {
+
+    public IncidentDB() {
+        this.status = IncidentStatusEnum.OPEN;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,5 +45,15 @@ public class IncidentDB {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime closedAt;
+
+    @Enumerated(EnumType.STRING)
+    private IncidentStatusEnum status;
+
+    @Version
+    private Long version;
+
+    private String solutionDescription;
+
+    private String reasonForReopening;
 
 }
