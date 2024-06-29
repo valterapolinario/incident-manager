@@ -5,29 +5,27 @@ import com.br.manager.dto.api.request.IncidentReqDTO;
 import com.br.manager.dto.api.request.IncidentUpdateReqDTO;
 import com.br.manager.dto.api.response.IncidentResDTO;
 import com.br.manager.service.IncidentService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
 @RequestMapping("/api/v1/incidents")
 public class IncidentController implements IncidentApi {
-
     @Autowired
     private IncidentService service;
 
     @Override
-    @PostMapping
-    @ResponseStatus(CREATED)
-    public ResponseEntity<Void> createIncident(@RequestBody @Valid IncidentReqDTO request) throws URISyntaxException {
+    public ResponseEntity<Void> createIncident(IncidentReqDTO request) throws URISyntaxException {
 
         Long id = service.createIncident(request);
         URI location = new URI("/api/v1/incidents/" + id);
@@ -37,9 +35,8 @@ public class IncidentController implements IncidentApi {
     }
 
     @Override
-    @PutMapping("/{id}")
-    @ResponseStatus(NO_CONTENT)
-    public ResponseEntity<Void> updateIncident(@PathVariable Long id, @RequestBody IncidentUpdateReqDTO request) throws URISyntaxException {
+    public ResponseEntity<Void> updateIncident(Long id, IncidentUpdateReqDTO request) throws URISyntaxException {
+
         service.updateIncident(id, request);
         URI location = new URI("/api/v1/incidents/" + id);
         HttpHeaders headers = new HttpHeaders();
@@ -48,30 +45,22 @@ public class IncidentController implements IncidentApi {
     }
 
     @Override
-    @DeleteMapping("/{id}")
-    @ResponseStatus(NO_CONTENT)
-    public ResponseEntity<Void> deleteIncident(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteIncident(Long id) {
         service.deleteIncident(id);
         return ResponseEntity.noContent().build();
     }
 
     @Override
-    @GetMapping("/{id}")
-    @ResponseStatus(OK)
-    public ResponseEntity<IncidentResDTO> listById(@PathVariable Long id) {
+    public ResponseEntity<IncidentResDTO> listById(Long id) {
         return ResponseEntity.ok().body(service.getIncidentById(id));
     }
 
     @Override
-    @GetMapping("/last-incidents")
-    @ResponseStatus(OK)
     public ResponseEntity<List<IncidentResDTO>> ListLast20Incidents() {
         return ResponseEntity.ok().body(service.getLast20Incidents());
     }
 
     @Override
-    @GetMapping
-    @ResponseStatus(OK)
     public ResponseEntity<List<IncidentResDTO>> listAll() {
         return ResponseEntity.ok().body(service.getAllIncidents());
     }

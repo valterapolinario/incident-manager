@@ -28,6 +28,11 @@
     </scm>
     <properties>
         <java.version>17</java.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <org.project.lombok.version.Version>0.2.0</org.project.lombok.version.Version>
+        <lombok-bindigng.version>0.2.0</lombok-bindigng.version>
+        <springdoc.version>2.0.4</springdoc.version>
     </properties>
     <dependencies>
         <dependency>
@@ -62,7 +67,8 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <scope>provided</scope>
+            <!--            <optional>true</optional>-->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -78,6 +84,11 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
     </dependencies>
 
@@ -96,6 +107,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <finalName>application</finalName>
     </build>
     <repositories>
         <repository>
