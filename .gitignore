@@ -1,33 +1,107 @@
-HELP.md
+# Directorios e arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos e diretórios de logs
+logs
+*.log
+*.log.*
+
+# Diretórios de build
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+build/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
+# Arquivos de configuração temporários
+*.swp
 *.iml
 *.ipr
+*.iws
+*.bak
+*.tmp
+*.temp
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+# Arquivos gerados por IDEs
+.idea/
+*.classpath
+*.project
+*.settings/
+*.vscode/
+
+# Diretórios do Maven
+.mvn/
+!**/src/main/**/mvn-wrapper.jar
+
+
+
+# Arquivos do Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+
+
+# Arquivos de configurações específicas do IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Arquivos de configurações específicas do Eclipse
+.project
+.classpath
+.settings/
+bin/
+.apt_generated/
+.autotools/
+.bnd/
+.buildpath/
+
+# Arquivos de configurações específicas do NetBeans
+nbproject/private/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
 
-### VS Code ###
+# Arquivos de configurações específicas do VS Code
 .vscode/
+
+
+
+
+
+
+# Arquivos e diretórios de configuração de segurança
+*.key
+*.pem
+*.cert
+
+# Arquivos e diretórios de configuração de deploy
+*.env
+
+# Arquivos de configuração de ambiente específico
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env
+
+# Arquivos de teste
+**/test-results/
+**/coverage/
+**/reports/
+**/results/
+**/cobertura/
+
+# Diretórios e arquivos de logs de execução
+**/logs/
+**/error.log
+**/access.log
+
+# Diretórios e arquivos temporários
+**/tmp/
+**/temp/
+**/out/
