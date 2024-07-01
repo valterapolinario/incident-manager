@@ -3,9 +3,13 @@ package com.br.manager.controller;
 import com.br.manager.controller.api.IncidentApi;
 import com.br.manager.dto.api.request.IncidentReqDTO;
 import com.br.manager.dto.api.request.IncidentUpdateReqDTO;
+import com.br.manager.dto.api.request.IncidenteFinishReqDTO;
+import com.br.manager.dto.api.request.IncidenteReopenReqDTO;
 import com.br.manager.dto.api.response.IncidentResDTO;
 import com.br.manager.service.IncidentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,5 +67,22 @@ public class IncidentController implements IncidentApi {
     @Override
     public ResponseEntity<List<IncidentResDTO>> listAll() {
         return ResponseEntity.ok().body(service.getAllIncidents());
+    }
+
+    @Override
+    public ResponseEntity<Void> finishIncident(Long id, IncidenteFinishReqDTO finishReqDTO) {
+        service.finishIncident(id, finishReqDTO);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> reopenIncident(Long id, IncidenteReopenReqDTO reopenReqDTO) {
+        service.reopenIncident(id, reopenReqDTO);
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Page<IncidentResDTO>> getPagedIncidents(Pageable pageable) {
+        return ResponseEntity.ok().body(service.getPaginedIncidents(pageable));
     }
 }

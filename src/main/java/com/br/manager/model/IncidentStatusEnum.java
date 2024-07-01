@@ -11,4 +11,8 @@ public enum IncidentStatusEnum {
     CLOSED("Closed");
 
     private final String value;
+
+    public boolean isCompleted() {
+        return CLOSED.equals(this);
+    }
 }

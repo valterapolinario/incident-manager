@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 public enum ErrorMessagesEnum {
 
     INCIDENT_NOT_FOUND("Incident not found"),
-    INCIDENT_ALREADY_EXISTS("Incident already exists");
-
+    INCIDENT_ALREADY_EXISTS("Incident already exists"),
+    INCIDENT_ALREADY_FINISHED("Incident already finished"),
+    SOLUTION_NOT_INFORMED("Solution not informed"),
+    INCIDENT_NOT_CLOSED(" Incident has not been finalized");
     private final String message;
 }

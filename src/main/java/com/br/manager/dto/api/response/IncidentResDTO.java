@@ -16,6 +16,14 @@ public record IncidentResDTO(
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         LocalDateTime updatedAt,
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-        LocalDateTime closedAt
+        LocalDateTime closedAt,
+        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        LocalDateTime reopenedAt,
+
+        String status,
+
+        String reasonForReopening
+
+
 ) {
 }
