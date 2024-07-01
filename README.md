@@ -33,3 +33,12 @@ os requisitos tecnicos encontram-se descritos em **/resources/descricaoDesafio.t
 - ** utilização de dockerFile e Docker-compose para facilitar a execução da aplicação e um posterior deploy
 - ** otimização de enpoints de consulta, atraves de consulta Paginada, atendendo aos criteiros de busca propostos
 - ** imlementacao de endpoints para finalizar e reabrir incidentes, controle de status, para considerar estados entre criar e deletar
+- ** estes pontos de observação, foram implementados na branch feat/api-v2
+
+## Como testar a aplicação(existente na Branch feat/api-v2):
+
+- Faça o clone do repositório na sua máquina, indicado o uso de SSL no github
+- tenha certeza de possuir o docker instalado e funcionando na maquina
+- Execute o comando docker-compose up --build na pasta raiz ( onde se encontra os arquivos dockerfile e docker-compose.yml
+- caso nao possua o docker instalado na maquina , deve se manter o passo de testar a aplicação mencionado na linha 10
+- a Collection do Postman para teste de chamadas a API em V2 encontra-se no diretorio **/test/postman nomeado V2
