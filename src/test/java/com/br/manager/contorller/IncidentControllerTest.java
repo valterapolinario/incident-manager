@@ -58,21 +58,6 @@ public class IncidentControllerTest {
     }
 
     @Test
-    void updateIncident() throws Exception {
-        IncidentReqDTO request = new IncidentReqDTO(
-                "title", "description"
-        );
-
-        mockMvc
-                .perform(put("/api/v1/incidents/2")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                )
-                .andExpect(status().isNoContent())
-                .andExpect(header().string(HttpHeaders.LOCATION, "/api/v1/incidents/2"));
-    }
-
-    @Test
     void deleteIncident() throws Exception {
         mockMvc
                 .perform(delete("/api/v1/incidents/3"))

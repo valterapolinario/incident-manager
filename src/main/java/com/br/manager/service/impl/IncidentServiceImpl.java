@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,6 +37,7 @@ public class IncidentServiceImpl implements IncidentService {
     }
 
     @Override
+    @Transactional
     public void updateIncident(Long id, IncidentUpdateReqDTO request) {
         IncidentDB incidentSaved = repository.findById(id)
                 .orElseThrow(() -> new GeneralNotFoundException(ErrorMessagesEnum.INCIDENT_NOT_FOUND.getMessage(), id));
@@ -79,6 +81,7 @@ public class IncidentServiceImpl implements IncidentService {
     }
 
     @Override
+    @Transactional
     public void finishIncident(Long id, IncidenteFinishReqDTO finishReqDTO) {
         IncidentDB incidentSaved = repository.findById(id)
                 .orElseThrow(() -> new GeneralNotFoundException(ErrorMessagesEnum.INCIDENT_NOT_FOUND.getMessage(), id));
@@ -94,6 +97,7 @@ public class IncidentServiceImpl implements IncidentService {
     }
 
     @Override
+    @Transactional
     public void reopenIncident(Long id, IncidenteReopenReqDTO reopenReqDTO) {
 
         IncidentDB incidentSaved = repository.findById(id)
