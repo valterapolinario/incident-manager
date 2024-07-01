@@ -54,6 +54,7 @@ public class IncidentDB {
 
     @Version
     private Long version;
+
     private String solutionDescription;
 
     private String reasonForReopening;

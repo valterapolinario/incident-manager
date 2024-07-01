@@ -1,6 +1,8 @@
 package com.br.manager.contorller;
 
 import com.br.manager.dto.api.request.IncidentReqDTO;
+import com.br.manager.dto.api.request.IncidenteFinishReqDTO;
+import com.br.manager.dto.api.request.IncidenteReopenReqDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -58,6 +61,21 @@ public class IncidentControllerTest {
     }
 
     @Test
+    void updateIncident() throws Exception {
+        IncidentReqDTO request = new IncidentReqDTO(
+                "title", "description"
+        );
+
+        mockMvc
+                .perform(put("/api/v1/incidents/2")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+                )
+                .andExpect(status().isNoContent())
+                .andExpect(header().string(HttpHeaders.LOCATION, "/api/v1/incidents/2"));
+    }
+
+    @Test
     void deleteIncident() throws Exception {
         mockMvc
                 .perform(delete("/api/v1/incidents/3"))
@@ -101,5 +119,42 @@ public class IncidentControllerTest {
                 .andExpect(jsonPath("$.title").value(OBJECT_NOT_FOUND))
                 .andExpect(jsonPath("$.detail").value(INCIDENT_NOT_FOUND))
                 .andExpect(jsonPath("$.time").exists());
+    }
+
+    @Test
+    void finishIncident() throws Exception {
+        IncidenteFinishReqDTO request = new IncidenteFinishReqDTO(
+                "finish"
+        );
+
+        MvcResult result = mockMvc.perform(patch("/api/v1/incidents/finish-incidente/10")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isNoContent())
+                .andReturn();
+
+        System.out.println(result.getResponse().getContentAsString());
+    }
+
+    @Test
+    void reopenIncident() throws Exception {
+        IncidenteReopenReqDTO request = new IncidenteReopenReqDTO(
+                "reopen"
+        );
+
+        mockMvc.perform(patch("/api/v1/incidents/reopen-incidente/5")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void getPagedIncidents() throws Exception {
+        mockMvc.perform(get("/api/v1/incidents/paged")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.size").value(20));
     }
 }
