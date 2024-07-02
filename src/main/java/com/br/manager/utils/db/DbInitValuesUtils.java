@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class DbInitValuesUtils {
 
+    public static final String EMAIL_DEFAULT = "emaildeault@gmail.com";
+    public static final String NAME = "userDefault";
+    public static final String PASSWORD = "admin123";
     @Autowired
     private UserRepository repository;
 
@@ -19,12 +22,12 @@ public class DbInitValuesUtils {
 
     @PostConstruct
     public void init() {
-        if (repository.findByEmail("emaildeault@gmail.com").isEmpty()) {
+        if (repository.findByEmail(EMAIL_DEFAULT).isEmpty()) {
             UserDB adminUser = new UserDB();
-            adminUser.setName("userDefault");
-            adminUser.setPassword(passwordEncoder.encode("admin123"));
+            adminUser.setName(NAME);
+            adminUser.setPassword(passwordEncoder.encode(PASSWORD));
             adminUser.setPosition(UserPositionEnum.ADMIN);
-            adminUser.setEmail("emaildeault@gmail.com");
+            adminUser.setEmail(EMAIL_DEFAULT);
             repository.save(adminUser);
         }
     }

@@ -181,7 +181,7 @@ public interface IncidentApi {
             @ApiResponse(responseCode = "400", description = "Bad Request"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public ResponseEntity<Page<IncidentResDTO>> getPagedIncidents(
+    ResponseEntity<Page<IncidentResDTO>> getPagedIncidents(
             @Parameter(description = "Pageable object", schema = @Schema(implementation = Pageable.class)) @PageableDefault(size = 20, direction = Sort.Direction.DESC, sort = "createdAt") Pageable pageable);
 
 }

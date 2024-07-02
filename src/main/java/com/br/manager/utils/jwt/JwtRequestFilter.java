@@ -20,9 +20,12 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
 
-    private JWTUtils jwtUtils;
+    public static final String AUTH = "/auth";
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String PREFIX = "Bearer ";
+    private final JWTUtils jwtUtils;
 
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
     public JwtRequestFilter(JWTUtils jwtUtils, @Lazy UserDetailsService userDetailsService) {
@@ -33,18 +36,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getRequestURI().startsWith("/auth");
+        return request.getRequestURI().startsWith(AUTH);
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        final String authorizationHeader = request.getHeader("Authorization");
+        final String authorizationHeader = request.getHeader(AUTHORIZATION);
 
         String username = null;
         String token = null;
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader != null && authorizationHeader.startsWith(PREFIX)) {
             token = authorizationHeader.substring(7);
             username = jwtUtils.extractUsername(token);
         }

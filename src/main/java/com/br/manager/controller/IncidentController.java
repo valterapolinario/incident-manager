@@ -25,6 +25,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @RestController
 @RequestMapping("/api/v1/incidents")
 public class IncidentController implements IncidentApi {
+    public static final String URI_PATH = "/api/v1/incidents/";
     @Autowired
     private IncidentService service;
 
@@ -32,7 +33,7 @@ public class IncidentController implements IncidentApi {
     public ResponseEntity<Void> createIncident(IncidentReqDTO request) throws URISyntaxException {
 
         Long id = service.createIncident(request);
-        URI location = new URI("/api/v1/incidents/" + id);
+        URI location = new URI(URI_PATH + id);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(location);
         return new ResponseEntity<>(headers, CREATED);
@@ -42,7 +43,7 @@ public class IncidentController implements IncidentApi {
     public ResponseEntity<Void> updateIncident(Long id, IncidentUpdateReqDTO request) throws URISyntaxException {
 
         service.updateIncident(id, request);
-        URI location = new URI("/api/v1/incidents/" + id);
+        URI location = new URI(URI_PATH + id);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(location);
         return new ResponseEntity<>(headers, NO_CONTENT);
