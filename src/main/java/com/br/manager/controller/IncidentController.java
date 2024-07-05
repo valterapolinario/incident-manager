@@ -7,6 +7,7 @@ import com.br.manager.dto.api.request.IncidenteFinishReqDTO;
 import com.br.manager.dto.api.request.IncidenteReopenReqDTO;
 import com.br.manager.dto.api.response.IncidentResDTO;
 import com.br.manager.service.IncidentService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
 @RequestMapping("/api/v1/incidents")
+@SecurityRequirement(name = "Bearer-key")
 public class IncidentController implements IncidentApi {
     public static final String URI_PATH = "/api/v1/incidents/";
     @Autowired
